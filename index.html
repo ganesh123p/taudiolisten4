@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Telugu Text to Speech</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f8f8f8;
+      padding: 30px;
+      text-align: center;
+    }
+    textarea {
+      width: 90%;
+      height: 150px;
+      font-size: 1.2rem;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      font-size: 1rem;
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #5c67f2;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3b41c5;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Telugu Text to Speech 🔊</h1>
+  <textarea id="teluguText" placeholder="ఇక్కడ తెలుగు వచనం టైప్ చేయండి..."></textarea><br/>
+  <button onclick="speakText()">పఠించు / Speak</button>
+
+  <script>
+    function speakText() {
+      const text = document.getElementById("teluguText").value.trim();
+
+      if (!text) {
+        alert("దయచేసి వచనం టైప్ చేయండి.");
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "te-IN"; // Telugu - India
+
+      const voices = window.speechSynthesis.getVoices();
+      const teluguVoice = voices.find(v => v.lang === "te-IN");
+
+      if (teluguVoice) {
+        utterance.voice = teluguVoice;
+      }
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Load voices
+    window.speechSynthesis.onvoiceschanged = () => {
+      window.speechSynthesis.getVoices();
+    };
+  </script>
+
+</body>
+</html>
