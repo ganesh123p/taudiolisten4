@@ -1,72 +1,60 @@
 <!DOCTYPE html>
 <html lang="te">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Telugu Text to Speech</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #f8f8f8;
-      padding: 30px;
-      text-align: center;
-    }
-    textarea {
-      width: 90%;
-      height: 150px;
-      font-size: 1.2rem;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    button {
-      font-size: 1rem;
-      margin-top: 20px;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      background-color: #5c67f2;
-      color: white;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #3b41c5;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>తెలుగు వాక్య ఉచ్చారణ (ప్రో)</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>తెలుగు వాక్య ఉచ్చారణ</h1>
+            <p class="subtitle">మీ బ్రౌజర్ వాయిస్‌లను ఉపయోగించి టెక్స్ట్‌ను ఆడియోగా మార్చండి</p>
+        </header>
 
-  <h1>Telugu Text to Speech 🔊</h1>
-  <textarea id="teluguText" placeholder="ఇక్కడ తెలుగు వచనం టైప్ చేయండి..."></textarea><br/>
-  <button onclick="speakText()">పఠించు / Speak</button>
+        <main>
+            <div class="input-area">
+                <textarea id="teluguText" placeholder="ఇక్కడ మీ తెలుగు వచనాన్ని నమోదు చేయండి..." rows="8"></textarea>
+            </div>
 
-  <script>
-    function speakText() {
-      const text = document.getElementById("teluguText").value.trim();
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label for="voiceSelect">వాయిస్ ఎంపిక:</label>
+                    <select id="voiceSelect" disabled>
+                        <option value="">వాయిస్‌లు లోడ్ అవుతున్నాయి...</option>
+                    </select>
+                </div>
 
-      if (!text) {
-        alert("దయచేసి వచనం టైప్ చేయండి.");
-        return;
-      }
+                <div class="control-group">
+                    <label for="rate">వేగం: <span id="rateValue">1</span></label>
+                    <input type="range" id="rate" min="0.5" max="2" value="1" step="0.1">
+                </div>
 
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "te-IN"; // Telugu - India
+                <div class="control-group">
+                    <label for="pitch">స్వరం (పిచ్): <span id="pitchValue">1</span></label>
+                    <input type="range" id="pitch" min="0" max="2" value="1" step="0.1">
+                </div>
+            </div>
 
-      const voices = window.speechSynthesis.getVoices();
-      const teluguVoice = voices.find(v => v.lang === "te-IN");
+            <div class="action-buttons">
+                <button id="speakButton" class="btn btn-speak" disabled>మాట్లాడించు</button>
+                <button id="pauseButton" class="btn btn-pause" disabled>పాజ్</button>
+                <button id="resumeButton" class="btn btn-resume" disabled>కొనసాగించు</button>
+                <button id="stopButton" class="btn btn-stop" disabled>ఆపు</button>
+            </div>
 
-      if (teluguVoice) {
-        utterance.voice = teluguVoice;
-      }
+            <div id="statusMessage" class="status-message">
+                వచనాన్ని నమోదు చేసి, 'మాట్లాడించు' నొక్కండి.
+            </div>
+        </main>
 
-      window.speechSynthesis.speak(utterance);
-    }
+        <footer>
+            <p>© <span id="currentYear"></span> అనుభవజ్ఞుడైన డెవలపర్ ద్వారా ప్రేమతో ❤️</p>
+        </footer>
+    </div>
 
-    // Load voices
-    window.speechSynthesis.onvoiceschanged = () => {
-      window.speechSynthesis.getVoices();
-    };
-  </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
